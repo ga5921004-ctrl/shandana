@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finally It's 16/01/2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="page.html">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #800000; /* Maroon */
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Pattern background with gridlines */
+        .pattern-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+            background-image: 
+                linear-gradient(rgba(255, 192, 203, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 192, 203, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* Add subtle decorative elements */
+        .pattern-background::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255, 192, 203, 0.15) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(255, 192, 203, 0.15) 1px, transparent 1px);
+            background-size: 100px 100px;
+        }
+        
+        /* Top date text */
+        .date-container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 30px 20px;
+            width: 100%;
+        }
+        
+        .date-text {
+            font-size: 3.8rem;
+            font-weight: 900;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #FFD700, #FF69B4, #FF1493);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            letter-spacing: 1px;
+        }
+        
+        /* Main content area - centered heart */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        /* Heart button - reduced size */
+        .heart-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 150px; /* Reduced from 220px */
+            height: 150px; /* Reduced from 220px */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: heartbeat 2s infinite;
+            text-decoration: none;
+            margin: 0 auto;
+        }
+        
+        .heart-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .heart-button:active {
+            transform: scale(0.95);
+        }
+        
+        .heart-shape {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: hotpink;
+            transform: rotate(45deg);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .heart-shape:before,
+        .heart-shape:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: hotpink;
+            border-radius: 50%;
+        }
+        
+        .heart-shape:before {
+            top: -50%;
+            left: 0;
+        }
+        
+        .heart-shape:after {
+            top: 0;
+            left: -50%;
+        }
+        
+        /* Text in heart - no rotation, properly centered */
+        .button-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Removed rotation */
+            color: #800000; /* Maroon */
+            font-size: 1.4rem; /* Slightly smaller to fit */
+            font-weight: 800;
+            text-align: center;
+            width: 85%;
+            z-index: 2;
+            text-shadow: none;
+            line-height: 1.3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        /* Footer note */
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+        }
+        
+        /* Heartbeat animation only for the button */
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .date-text {
+                font-size: 2.8rem;
+            }
+            
+            .heart-button {
+                width: 160px; /* Reduced */
+                height: 160px; /* Reduced */
+            }
+            
+            .button-text {
+                font-size: 1.2rem;
+            }
+            
+            .pattern-background {
+                background-size: 30px 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .date-text {
+                font-size: 2.2rem;
+                padding: 20px 10px;
+            }
+            
+            .heart-button {
+                width: 150px; /* Reduced */
+                height: 150px; /* Reduced */
+            }
+            
+            .button-text {
+                font-size: 1.1rem;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+            
+            .pattern-background {
+                background-size: 25px 25px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .date-text {
+                font-size: 1.8rem;
+            }
+            
+            .heart-button {
+                width: 140px; /* Reduced */
+                height: 140px; /* Reduced */
+            }
+            
+            .button-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pattern background with gridlines -->
+    <div class="pattern-background"></div>
+    
+    <div class="date-container">
+        <h1 class="date-text">Finally It's 16/01/2026</h1>
+    </div>
+    
+    <div class="main-content">
+        <a href="page.html" target="_blank" class="heart-button" id="heartButton">
+            <div class="heart-shape"></div>
+            <div class="button-text">CLICK FOR WISHES</div>
+        </a>
+    </div>
+    
+    <div class="footer">
+        Made with <i class="fas fa-heart" style="color:#FFC0CB"></i> for a special day
+    </div>
+
+    <script>
+        // Button interaction
+        document.getElementById('heartButton').addEventListener('click', function(e) {
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = 'heartbeat 2s infinite';
+            }, 100);
+            
+            // In a real implementation, we'd navigate to the wishes page
+            // but for this demo, we'll show a message if the link is example.com
+            if (this.getAttribute('href').includes('example.com')) {
+                e.preventDefault();
+                alert("In the actual website, this would link to your wishes page!\n\nUpdate the 'href' attribute in the HTML code (line 171) to point to your actual wishes page.");
+            }
+        });
+        
+        // Add a current time display in console
+        console.log("Page loaded for: Finally It's 16/01/2026");
+        console.log("Today's date:", new Date().toLocaleDateString());
+    </script>
+</body>
+</html>

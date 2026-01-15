@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERI Aizoo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+        }
+        .121{
+            width: 100px;
+            height: 30px;
+            font-family: sans-serif;
+            color: red;
+        }
+        
+        body {
+            background-color: maroon;
+            background-image: 
+                linear-gradient(rgba(255, 192, 203, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 192, 203, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Fireworks container */
+        .fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            top: 10%;
+            animation: fireworkUp 2s ease-out forwards;
+        }
+        
+        @keyframes fireworkUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+        
+        .firework-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: particleExplode 1s ease-out forwards;
+        }
+        
+        @keyframes particleExplode {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+        
+        /* Main container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Header with Happy Birthday text */
+        .header {
+            align-self: flex-start;
+            margin-bottom: 40px;
+            transform: translateY(100px);
+            animation: slideUp 1s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .happy-birthday-text {
+            display: flex;
+            flex-direction: column;
+            color: #FFD700;
+            text-shadow: 3px 3px 0 #FF1493, 6px 6px 0 rgba(0, 0, 0, 0.2);
+            line-height: 0.9;
+        }
+        
+        .happy {
+            font-size: 6.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+        
+        .birthday {
+            font-size: 5.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-top: -10px;
+        }
+        
+        /* Date rectangle */
+        .date-container {
+            margin-bottom: 50px;
+            transform: translateY(100px);
+            animation: slideUp 1s ease-out 1s forwards;
+            opacity: 0;
+        }
+        
+        .date-rectangle {
+            background-color: red;
+            border-radius: 50px;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            min-width: 350px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .date-rectangle::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff0000, #ff7373, #ff0000);
+            z-index: -1;
+            border-radius: 60px;
+            opacity: 0.7;
+        }
+        
+        .heart {
+            color: white;
+            font-size: 2rem;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .date {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        /* Profile section */
+        .profile-container {
+            position: relative;
+            margin-bottom: 60px;
+            transform: translateY(100px);
+            animation: slideUp 1s ease-out 1.5s forwards;
+            opacity: 0;
+        }
+        
+        .profile-circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #FFD700, #FF69B4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            border: 8px solid #FF1493;
+        }
+        
+        .profile-pic {
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: url('1.JPEG') center/cover;
+            border: 5px solid white;
+        }
+        
+        .name-tag {
+            position: absolute;
+            bottom: -25px;
+            background: linear-gradient(to right, #FF1493, #FF69B4);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 250px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+        }
+        
+        .name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Button */
+        .wish-button {
+            background: linear-gradient(to right, #FFD700, #FF69B4);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            transform: translateY(100px);
+            animation: slideUp 1s ease-out 2s forwards;
+            opacity: 0;
+            z-index: 10;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wish-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .wish-button:active {
+            transform: scale(0.98);
+        }
+        
+        /* Modal (wishes rectangle) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            width: 60%;
+            height: 40%;
+            background: linear-gradient(135deg, #fff0f5, #fffacd);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow-y: auto;
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .abc{
+             width: 80px;
+             height: 30px;
+             background-color: red;
+        }
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #8B0000;
+            font-size: 2rem;
+            border-bottom: 2px dashed #FF69B4;
+            padding-bottom: 10px;
+        }
+        
+        .wishes-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #333;
+            text-align: center;
+        }
+        
+        .wishes-text p {
+            margin-bottom: 15px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #FF1493;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .happy { font-size: 4.5rem; }
+            .birthday { font-size: 3.8rem; }
+            .date-rectangle { min-width: 300px; padding: 12px 30px; }
+            .date { font-size: 1.7rem; }
+            .heart { font-size: 1.7rem; }
+            .profile-circle { width: 200px; height: 200px; }
+            .modal-content { width: 85%; height: 50%; }
+        }
+        
+        @media (max-width: 480px) {
+            .happy { font-size: 3.5rem; }
+            .birthday { font-size: 2.8rem; }
+            .date-rectangle { min-width: 250px; padding: 10px 20px; }
+            .date { font-size: 1.4rem; }
+            .heart { font-size: 1.4rem; }
+            .name-tag { min-width: 200px; padding: 8px 20px; }
+            .name { font-size: 1.2rem; }
+            .wish-button { padding: 12px 30px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fireworks container -->
+    <div class="fireworks-container" id="fireworks"></div>
+    
+    <div class="container">
+        <!-- Happy Birthday Text -->
+        <div class="header">
+            <div class="happy-birthday-text">
+                <div class="happy">HAPPY</div>
+                <div class="birthday">BIRTHDAY</div>
+            </div>
+        </div>
+        
+        <!-- Date Rectangle -->
+        <div class="date-container">
+            <div class="date-rectangle">
+                <div class="heart"><i class="fas fa-heart"></i></div>
+                <div class="date">16-01-2004</div>
+                <div class="heart"><i class="fas fa-heart"></i></div>
+            </div>
+        </div>
+        
+        <!-- Profile Section -->
+        <div class="profile-container">
+          
+            
+            <!-- Profile Circle -->
+            <div class="profile-circle">
+                <div class="profile-pic"></div>
+            </div>
+            
+            <!-- Name Tag -->
+            <div class="name-tag">
+                <div class="heart"><i class="fas fa-heart"></i></div>
+                <div class="name">SHANDANA</div>
+                <div class="heart"><i class="fas fa-heart"></i></div>
+            </div>
+        </div>
+        
+        <!-- Button to open wishes -->
+        <button class="wish-button" id="openWishes">
+            <i class="fas fa-gift"></i> Click for Birthday Wishes
+        </button>
+    </div>
+    
+    <!-- Modal for wishes -->
+    <div class="modal-overlay" id="wishesModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2 class="modal-header">Birthday Wishes & Prayers</h2>
+            <div class="wishes-text">
+                <p>🎉 Happy Birthday, Meri Aizoo 🎂</p>
+                <p>On this special day, I pray that all your dreams come true and that you're blessed with endless joy, laughter, and love.</p>
+                <p>May this new year of your life bring you closer to your goals and fill your days with beautiful moments and wonderful memories.</p>
+                <p>You deserve all the happiness in the world, and I'm so grateful to have you in my life. Here's to many more years of laughter, adventures, and shared dreams!</p>
+                <p>May God bless you with good health, prosperity, and success in everything you do. Always remember how special and loved you are!</p>
+                <p>Wishing you a day as amazing as you are! 🎈❤️🎁</p>
+                <p>Some Words In URDU</p>
+                <p>Ye be khudi ye labon ki hassi mubarak ho<br> 
+                    Apko JANAM DIN  ki ye khushi mubarak ho <br>
+                    Kabhi na aye koi gham qareeb apke <br>
+                    Jahan mai sabse ache ho naseeb apke<br>
+                    Khuloos pyar bhari zindagi mubarak <br>
+                    Apko JANAM DIN ki ye khushi mubarak</p>
+                   <p> Allah apko Zindagi ki sari khushian asayeshe awr sukoon de<br> 
+                        Apke sare chote bare khwab pore ho app kabhi ghamzada na ho<br> 
+                        Hamesha hansti cheh chehati Rahe<br> 
+                        Ammen❤️ </p>
+                    <p>One last thing mujhe mere sari ghaltion pe maaf krdena app sorry</p>
+            </div>
+        </div>
+    </div><br>
+    <a href="index2.html">
+        <button style="width: 300px; height: 40px; background-color: red; color: white; font-family: sans-serif; font-size: 30px; border-radius: 100px;"><p>Yor Images </p></button>
+    </a>
+    <script>
+        // Create fireworks
+        function createFireworks() {
+            const fireworksContainer = document.getElementById('fireworks');
+            
+            // Create multiple fireworks
+            for (let i = 0; i < 30; i++) {
+                // Random position and delay
+                const left = Math.random() * 100;
+                const delay = Math.random() * 3;
+                
+                // Create firework
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = `${left}%`;
+                firework.style.top = `${90 + Math.random() * 10}%`;
+                firework.style.animationDelay = `${delay}s`;
+                firework.style.backgroundColor = getRandomColor();
+                
+                fireworksContainer.appendChild(firework);
+                
+                // Create explosion particles
+                setTimeout(() => {
+                    createExplosion(left, 10, firework.style.backgroundColor);
+                }, delay * 1000 + 1000);
+                
+                // Remove firework after animation
+                setTimeout(() => {
+                    if (firework.parentNode) {
+                        firework.parentNode.removeChild(firework);
+                    }
+                }, delay * 1000 + 3000);
+            }
+        }
+        
+        function createExplosion(left, top, color) {
+            const fireworksContainer = document.getElementById('fireworks');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework-particle';
+                particle.style.left = `${left}%`;
+                particle.style.top = `${top}%`;
+                particle.style.backgroundColor = color;
+                
+                // Random direction for particles
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 30 + Math.random() * 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                
+                fireworksContainer.appendChild(particle);
+                
+                // Remove particle after animation
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 1000);
+            }
+        }
+        
+        function getRandomColor() {
+            const colors = ['#FF1493', '#FFD700', '#00BFFF', '#32CD32', '#FF69B4', '#FF4500'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        // Start fireworks
+        createFireworks();
+        // Continue fireworks every 3 seconds
+        setInterval(createFireworks, 3000);
+        
+        // Modal functionality
+        const openWishesBtn = document.getElementById('openWishes');
+        const closeModalBtn = document.getElementById('closeModal');
+        const wishesModal = document.getElementById('wishesModal');
+        
+        openWishesBtn.addEventListener('click', () => {
+            wishesModal.classList.add('active');
+        });
+        
+        closeModalBtn.addEventListener('click', () => {
+            wishesModal.classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        wishesModal.addEventListener('click', (e) => {
+            if (e.target === wishesModal) {
+                wishesModal.classList.remove('active');
+            }
+        });
+        
+        // Add some floating hearts animation to the background
+        function createFloatingHearts() {
+            const container = document.querySelector('.container');
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'absolute';
+                heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.opacity = '0.3';
+                heart.style.zIndex = '0';
+                heart.style.animation = `float ${Math.random() * 10 + 10}s linear infinite`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(heart);
+            }
+        }
+        
+        // Start floating hearts
+        createFloatingHearts();
+    </script>
+</body>
+</html>
